@@ -1,0 +1,27 @@
+@import '../../mixins.scss';
+
+.title {
+  display: block;
+  text-align: center;
+}
+
+.register {
+  @include formWrapper;
+}
+
+.form__input {
+  margin-bottom: 12px;
+}
+
+.divider {
+  margin-bottom: 8px;
+}
+
+.submitButton {
+  margin: 20px 0 8px 0;
+}
+
+.suggestionText {
+  display: block;
+  text-align: center;
+}

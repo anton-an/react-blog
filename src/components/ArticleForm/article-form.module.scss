@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 32px auto;
+}
+
+.form {
+  width: 920px;
+  padding: 32px;
+  background-color: white;
+}
+
+.formItem {
+  margin-bottom: 20px;
+}
+
+.tagList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tagListLabel {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.tag {
+  display: flex;
+  padding: 0;
+}
+
+.tagInput {
+  margin: 0 8px 4px 0;
+}
+
+.deleteButton {
+  margin-right: 8px;
+}
+
+.addButton {
+  display: block;
+  margin-bottom: 16px;
+  color: #1890ff;
+  border-color: #1890ff;
+}
+
+.submitButton {
+  display: block;
+}

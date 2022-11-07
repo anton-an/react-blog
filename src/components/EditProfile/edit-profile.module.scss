@@ -1,0 +1,10 @@
+@import '../../mixins.scss';
+
+.title {
+  display: block;
+  text-align: center;
+}
+
+.editForm {
+  @include formWrapper;
+}

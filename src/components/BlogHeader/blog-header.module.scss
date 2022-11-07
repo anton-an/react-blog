@@ -1,0 +1,43 @@
+@mixin colorButton {
+  color: #52c41a;
+  border-color: #52c41a;
+}
+
+.header {
+  background-color: white;
+}
+
+.signUpButton {
+  @include colorButton();
+}
+
+.signUpButton:hover {
+  @include colorButton();
+  filter: opacity(0.7);
+}
+
+.createButton {
+  @include colorButton();
+  margin-right: 20px;
+}
+
+.userLink {
+  margin-right: 20px;
+}
+
+.username {
+  font-size: 18px;
+}
+
+.username:hover {
+  filter: opacity(0.7);
+}
+
+.avatar {
+  margin-left: 20px;
+}
+
+.createButton:hover {
+  @include colorButton();
+  filter: brightness(120%);
+}
