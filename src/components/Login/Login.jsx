@@ -1,10 +1,10 @@
 import { Typography, Form, Input, Button, message, Row } from 'antd'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { useLoginMutation } from '../../api/apiSlice'
-import { setLoggedUser } from '../../store/userSlice'
+import { selectCurrentUser, setLoggedUser } from '../../store/userSlice'
 
 import styles from './login.module.scss'
 import './antd-redefine.scss'
@@ -14,15 +14,23 @@ export default function Login() {
   const { Password } = Input
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const currentUser = useSelector(selectCurrentUser)
   const [form] = Form.useForm()
 
   const [login, { data: userData, isLoading, isError, isSuccess, error }] = useLoginMutation()
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/', { replace: true })
+    }
+  }, [currentUser, navigate])
 
   useEffect(() => {
     if (isSuccess) {
       localStorage.setItem('user', JSON.stringify(userData))
       dispatch(setLoggedUser({ user: userData }))
       message.success('Successfully signed in!')
+      navigate(-1, { replace: true })
     }
     if (isError) {
       const { data } = error

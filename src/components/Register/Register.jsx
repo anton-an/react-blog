@@ -1,9 +1,9 @@
 import { Row, Typography, Form, Input, Button, Checkbox, message, Divider } from 'antd'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { setLoggedUser } from '../../store/userSlice'
+import { selectCurrentUser, setLoggedUser } from '../../store/userSlice'
 import { useRegisterMutation } from '../../api/apiSlice'
 
 import styles from './register.module.scss'
@@ -15,8 +15,15 @@ export default function Register() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  const currentUser = useSelector(selectCurrentUser)
 
   const [register, { data: userData, isError, isSuccess, isLoading, error }] = useRegisterMutation()
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/', { replace: true })
+    }
+  }, [currentUser, navigate])
 
   useEffect(() => {
     if (isSuccess) {

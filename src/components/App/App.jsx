@@ -28,7 +28,6 @@ export default function App() {
   }, [dispatch])
 
   const { Content } = Layout
-  const goHome = <Navigate to="/" replace />
   const goLogin = <Navigate to="/sign-in" replace />
 
   return (
@@ -52,8 +51,8 @@ export default function App() {
           <Route path="/articles/:slug" element={<ArticlePage />} />
           <Route path="/articles/:slug/edit" element={user ? <EditArticle /> : goLogin} />
           <Route path="/profile" element={user ? <EditProfile /> : goLogin} />
-          <Route path="/sign-up" element={user ? goHome : <Register />} />
-          <Route path="/sign-in" element={user ? goHome : <Login />} />
+          <Route path="/sign-up" element={<Register />} />
+          <Route path="/sign-in" element={<Login />} />
           <Route path="/new-article" element={user ? <CreateArticle /> : goLogin} />
           <Route path="/page-not-found" element={<PageNotFound />} />
           <Route path="*" element={<Navigate to="/page-not-found" replace />} />
