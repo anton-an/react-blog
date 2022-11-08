@@ -23,7 +23,6 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(userData))
       dispatch(setLoggedUser({ user: userData }))
       message.success('Successfully signed in!')
-      navigate('/')
     }
     if (isError) {
       const { data } = error
