@@ -34,12 +34,7 @@ export default function Article({ article, preview }) {
       setFavoritesCounter(unlikeData.article.favoritesCount)
       resetUnlike()
     }
-  }, [isLikeSuccess, isUnlikeSuccess, likeData, unlikeData])
-  useEffect(() => {
-    if (isUnlikeSuccess) {
-      setFavoritesCounter(unlikeData.article.favoritesCount)
-    }
-  }, [isUnlikeSuccess, likeData, unlikeData])
+  }, [isLikeSuccess, isUnlikeSuccess, likeData, unlikeData, resetLike, resetUnlike])
   useEffect(() => {
     if (isLikeError) {
       message.error('Cannot favorite the post')
