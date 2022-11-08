@@ -21,16 +21,25 @@ export default function Article({ article, preview }) {
     deleteArticle,
     { isLoading: isDeleteLoading, isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError },
   ] = useDeleteArticleMutation()
-  const [like, { data: likeData, error: isLikeError, isSuccess: isLikeSuccess }] = useLikePostMutation()
-  const [unlike, { data: unlikeData, error: isUnlikeError, isSuccess: isUnlikeSuccess }] = useUnlikePostMutation()
+  const [like, { data: likeData, error: isLikeError, isSuccess: isLikeSuccess, reset: resetLike }] =
+    useLikePostMutation()
+  const [unlike, { data: unlikeData, error: isUnlikeError, isSuccess: isUnlikeSuccess, reset: resetUnlike }] =
+    useUnlikePostMutation()
   useEffect(() => {
     if (isLikeSuccess) {
       setFavoritesCounter(likeData.article.favoritesCount)
+      resetLike()
     }
     if (isUnlikeSuccess) {
       setFavoritesCounter(unlikeData.article.favoritesCount)
+      resetUnlike()
     }
   }, [isLikeSuccess, isUnlikeSuccess, likeData, unlikeData])
+  useEffect(() => {
+    if (isUnlikeSuccess) {
+      setFavoritesCounter(unlikeData.article.favoritesCount)
+    }
+  }, [isUnlikeSuccess, likeData, unlikeData])
   useEffect(() => {
     if (isLikeError) {
       message.error('Cannot favorite the post')
@@ -99,13 +108,12 @@ export default function Article({ article, preview }) {
                   shape="circle"
                   disabled={!currentUser}
                   onClick={() => {
-                    if (isLiked) {
-                      unlike(slug)
-                      setIsLiked(false)
-                    }
+                    setIsLiked(!isLiked)
                     if (!isLiked) {
                       like(slug)
-                      setIsLiked(true)
+                    }
+                    if (isLiked) {
+                      unlike(slug)
                     }
                   }}
                 >
