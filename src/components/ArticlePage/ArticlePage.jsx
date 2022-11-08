@@ -45,5 +45,9 @@ export default function ArticlePage() {
     content = <Article article={article} preview={false} />
   }
 
-  return <Row justify="center">{content}</Row>
+  return (
+    <Row className={styles.articlePage} justify="center">
+      {content}
+    </Row>
+  )
 }
