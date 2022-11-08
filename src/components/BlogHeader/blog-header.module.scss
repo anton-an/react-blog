@@ -1,7 +1,4 @@
-@mixin colorButton {
-  color: #52c41a;
-  border-color: #52c41a;
-}
+@import '../../mixins.scss';
 
 .header {
   background-color: white;
