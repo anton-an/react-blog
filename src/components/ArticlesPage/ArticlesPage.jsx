@@ -1,4 +1,4 @@
-import { Row, Pagination, Spin, Alert } from 'antd'
+import { Row, Pagination, Spin, Alert, Col } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
@@ -66,20 +66,22 @@ export default function ArticlesPage() {
   }
 
   return (
-    <div className={styles.page}>
-      {content}
-      <Row className={styles.pagination} justify="center">
-        <Pagination
-          current={Number(params?.page)}
-          total={totalArticles}
-          pageSize={pageSize}
-          showSizeChanger={false}
-          onChange={(page) => {
-            navigate(`/articles/page=${page}`)
-          }}
-          size="small"
-        />
-      </Row>
-    </div>
+    <Row justify="center">
+      <Col>
+        {content}
+        <Row className={styles.pagination} justify="center">
+          <Pagination
+            current={Number(params?.page)}
+            total={totalArticles}
+            pageSize={pageSize}
+            showSizeChanger={false}
+            onChange={(page) => {
+              navigate(`/articles/page=${page}`)
+            }}
+            size="small"
+          />
+        </Row>
+      </Col>
+    </Row>
   )
 }

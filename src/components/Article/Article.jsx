@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { truncate } from 'lodash'
 
 import { useDeleteArticleMutation, useLikePostMutation, useUnlikePostMutation } from '../../api/apiSlice'
 import { selectCurrentUser } from '../../store/userSlice'
@@ -94,7 +95,11 @@ export default function Article({ article, preview }) {
             <Col span={16}>
               <Row align="middle" style={{ marginBottom: 6 }}>
                 <Button className={styles.article__link} type="link" style={{ padding: 0 }}>
-                  {preview ? <Link to={`../articles/${slug}`}>{article.title}</Link> : article.title}
+                  {preview ? (
+                    <Link to={`../articles/${slug}`}>{truncate(article.title, { length: 48 })}</Link>
+                  ) : (
+                    article.title
+                  )}
                 </Button>
                 <Button
                   className={styles.likeButton}
