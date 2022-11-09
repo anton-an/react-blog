@@ -21,7 +21,7 @@ export default function Login() {
 
   useEffect(() => {
     if (currentUser) {
-      navigate('/', { replace: true })
+      navigate(-1, { replace: true })
     }
   }, [currentUser, navigate])
 
@@ -30,7 +30,6 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(userData))
       dispatch(setLoggedUser({ user: userData }))
       message.success('Successfully signed in!')
-      navigate(-1, { replace: true })
     }
     if (isError) {
       const { data } = error
