@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import { Input, Form, Button } from 'antd'
+import { Input, Form, Button, Alert } from 'antd'
 
 import styles from './article-form.module.scss'
 import './antd-redefine.scss'
 
 /* eslint-disable react/jsx-props-no-spreading */
 
-export default function ArticleForm({ defaultValues, onSubmit, isLoading }) {
+export default function ArticleForm({ defaultValues, onSubmit, isLoading, isError, error }) {
   const {
     control,
     handleSubmit,
@@ -21,9 +21,30 @@ export default function ArticleForm({ defaultValues, onSubmit, isLoading }) {
     name: 'article.tagList',
   })
 
+  let formError
+
+  if (isError) {
+    let errorData
+    if ('data' in error) {
+      errorData = error.data
+    } else {
+      errorData = error
+    }
+    formError = (
+      <Alert
+        className={styles.error}
+        message="Error"
+        description={`Status: ${error?.status}. ${errorData?.errors?.message || error.error}`}
+        type="error"
+        showIcon
+      />
+    )
+  }
+
   return (
     <div className={styles.container}>
       <Form className={styles.form} layout="vertical" onFinish={handleSubmit(onSubmit)}>
+        {formError}
         <Controller
           control={control}
           name="article.title"

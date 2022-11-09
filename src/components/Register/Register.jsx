@@ -30,6 +30,7 @@ export default function Register() {
       localStorage.setItem('user', JSON.stringify(userData))
       dispatch(setLoggedUser({ user: userData }))
       message.success('Successfully signed up!')
+      navigate(-1, { replace: true })
     }
     if (isError) {
       const { data } = error

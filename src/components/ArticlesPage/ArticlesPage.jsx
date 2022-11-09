@@ -46,7 +46,7 @@ export default function ArticlesPage() {
   }
   if (isError) {
     let errorData
-    if (data in error) {
+    if ('data' in error) {
       errorData = error.data
     } else {
       //  if has no 'data' property (502 error)
