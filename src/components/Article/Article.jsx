@@ -121,9 +121,11 @@ export default function Article({ article, preview }) {
                     if (!isUnlikeLoading && !isLikeLoading) {
                       setIsLiked(!isLiked)
                       if (!isLiked) {
+                        setFavoritesCounter(favoritesCounter + 1)
                         like(slug)
                       }
                       if (isLiked) {
+                        setFavoritesCounter(favoritesCounter - 1)
                         unlike(slug)
                       }
                     }
