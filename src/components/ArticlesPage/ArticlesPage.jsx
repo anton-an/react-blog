@@ -68,7 +68,7 @@ export default function ArticlesPage() {
           pageSize={pageSize}
           showSizeChanger={false}
           onChange={(page) => {
-            navigate(`/articles/page=${page}`)
+            navigate(`/articles/page/${page}`)
           }}
           size="small"
         />

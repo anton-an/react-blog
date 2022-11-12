@@ -25,11 +25,13 @@
 .articleSection {
   display: flex;
   flex-direction: column;
+  flex-basis: 70%;
 }
 
 .authorSection {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
 
 .likeButton {
@@ -49,7 +51,7 @@
 }
 
 .tags {
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .text {
@@ -91,5 +93,8 @@
 @media screen and (max-width: 900px) {
   .article {
     margin: 16px 16px 0 16px;
+  }
+  .articleSection {
+    flex-basis: 60%;
   }
 }

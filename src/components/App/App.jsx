@@ -45,9 +45,9 @@ export default function App() {
           />
         ) : null}
         <Routes>
-          <Route path="/" element={<Navigate to={`/articles/page=${1}`} replace />} />
-          <Route path="/articles" element={<Navigate to={`/articles/page=${1}`} replace />} />
-          <Route path="/articles/page=:page" element={<ArticlesPage />} />
+          <Route path="/" element={<Navigate to={`/articles/page/${1}`} replace />} />
+          <Route path="/articles" element={<Navigate to={`/articles/page/${1}`} replace />} />
+          <Route path="/articles/page/:page" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
           <Route path="/articles/:slug/edit" element={user ? <EditArticle /> : goLogin} />
           <Route path="/profile" element={user ? <EditProfile /> : goLogin} />
