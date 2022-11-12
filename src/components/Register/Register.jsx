@@ -7,7 +7,6 @@ import { selectCurrentUser, setLoggedUser } from '../../store/userSlice'
 import { useRegisterMutation } from '../../api/apiSlice'
 
 import styles from './register.module.scss'
-import './antd-redefine.scss'
 
 export default function Register() {
   const { Title, Text } = Typography

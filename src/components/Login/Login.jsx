@@ -7,7 +7,6 @@ import { useLoginMutation } from '../../api/apiSlice'
 import { selectCurrentUser, setLoggedUser } from '../../store/userSlice'
 
 import styles from './login.module.scss'
-import './antd-redefine.scss'
 
 export default function Login() {
   const { Title, Text } = Typography

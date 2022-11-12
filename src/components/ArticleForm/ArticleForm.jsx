@@ -3,7 +3,6 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { Input, Form, Button, Alert } from 'antd'
 
 import styles from './article-form.module.scss'
-import './antd-redefine.scss'
 
 /* eslint-disable react/jsx-props-no-spreading */
 

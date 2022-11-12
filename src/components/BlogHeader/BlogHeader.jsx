@@ -1,4 +1,4 @@
-import { Typography, Layout, Button, Row, Col, Avatar } from 'antd'
+import { Typography, Layout, Button, Avatar } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -9,7 +9,7 @@ import { resetLoggedUser, selectCurrentUser } from '../../store/userSlice'
 import styles from './blog-header.module.scss'
 
 export default function BlogHeader() {
-  const { Title, Text } = Typography
+  const { Text } = Typography
   const { Header } = Layout
   const currentUser = useSelector(selectCurrentUser)
   const { data: userData, refetch } = useGetUserQuery('', { skip: !currentUser })
@@ -19,20 +19,20 @@ export default function BlogHeader() {
     }
   }, [currentUser, refetch])
   const dispatch = useDispatch()
-  const login = (
-    <>
+  const loginPanel = (
+    <div className={styles.loginPanel}>
       <Button type="text" href="/sign-in">
         Sign In
       </Button>
       <Button className={styles.signUpButton} href="/sign-up">
         Sign Up
       </Button>
-    </>
+    </div>
   )
 
   const avatarPlaceholder = 'https://static.productionready.io/images/smiley-cyrus.jpg'
-  const userInfo = (
-    <>
+  const userPanel = (
+    <div className={styles.userPanel}>
       <Button className={styles.createButton} href="/new-article" size="small">
         Create article
       </Button>
@@ -49,16 +49,14 @@ export default function BlogHeader() {
       >
         Log Out
       </Button>
-    </>
+    </div>
   )
   return (
     <Header className={styles.header}>
-      <Row justify="space-between" align="middle">
-        <Title style={{ fontSize: 18, margin: 0 }}>
-          <Link to="/">Realworld Blog</Link>
-        </Title>
-        <Col>{currentUser ? userInfo : login}</Col>
-      </Row>
+      <h1 className={styles.title}>
+        <Link to="/">Realworld Blog</Link>
+      </h1>
+      {currentUser ? userPanel : loginPanel}
     </Header>
   )
 }

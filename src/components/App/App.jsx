@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     <Layout style={{ minWidth: 540 }}>
-      <BlogHeader />
+      <BlogHeader className={styles.blogHeader} />
       <Content className={styles.content}>
         {isOffline ? (
           <Alert

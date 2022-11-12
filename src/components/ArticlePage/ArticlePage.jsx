@@ -1,5 +1,6 @@
 import { Alert, Row, Spin } from 'antd'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 import Article from '../Article/Article'
 import { useGetArticleQuery } from '../../api/apiSlice'
@@ -8,8 +9,17 @@ import styles from './article-page.module.scss'
 
 export default function ArticlePage() {
   const { slug } = useParams()
+  const { pathname } = useLocation()
   const { data, isSuccess, isLoading, isError, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true })
   let content
+
+  useEffect(() => {
+    document.documentElement.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant',
+    })
+  }, [pathname])
 
   if (isLoading) {
     content = (

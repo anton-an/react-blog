@@ -1,4 +1,4 @@
-import { Form, Typography, Input, Button, Alert, Row, message } from 'antd'
+import { Form, Typography, Input, Button, Row, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
@@ -16,13 +16,6 @@ export default function EditProfile() {
   const dispatch = useDispatch()
 
   let errorText
-  if (isError) {
-    const { data } = error
-    const errorKeys = Object.keys(data.errors)
-    errorText = errorKeys.map((key) => (
-      <Alert key={key} type="error" message={`${key} ${data.errors[key]}`} style={{ marginBottom: 12 }} showIcon />
-    ))
-  }
   const [form] = Form.useForm()
   useEffect(() => {
     if (isSuccess) {
