@@ -66,6 +66,7 @@ export default function ArticlesPage() {
           current={Number(params?.page)}
           total={totalArticles}
           pageSize={pageSize}
+          hideOnSinglePage
           showSizeChanger={false}
           onChange={(page) => {
             navigate(`/articles/page/${page}`)

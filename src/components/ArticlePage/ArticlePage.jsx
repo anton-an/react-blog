@@ -10,7 +10,7 @@ import styles from './article-page.module.scss'
 export default function ArticlePage() {
   const { slug } = useParams()
   const { pathname } = useLocation()
-  const { data, isSuccess, isLoading, isError, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true })
+  const { data, isSuccess, isLoading, isError } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true })
   let content
 
   useEffect(() => {
@@ -30,19 +30,12 @@ export default function ArticlePage() {
   }
 
   if (isError) {
-    let errorData
-    if (data in error) {
-      errorData = error.data
-    } else {
-      //  if has no 'data' property (502 error)
-      errorData = error
-    }
     content = (
       <Row justify="center">
         <Alert
           className={styles.error}
           message="Error"
-          description={`Status: ${error?.status}. ${errorData?.errors?.message || error.error}`}
+          description="Something went wrong. Try again later."
           type="error"
           showIcon
         />
