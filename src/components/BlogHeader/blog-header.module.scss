@@ -6,7 +6,7 @@
   justify-content: space-between;
   margin: 0;
   background-color: white;
-  /* min-width: 1000px; */
+  padding: 22px;
 }
 
 .loginPanel {
@@ -68,9 +68,11 @@
   .header {
     padding: 16px;
   }
+
   .userLink {
     margin-right: 8px;
   }
+
   .avatar {
     margin-left: 8px;
   }

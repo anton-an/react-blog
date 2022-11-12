@@ -124,7 +124,7 @@ export default function Article({ article, preview }) {
                 }
               }}
             >
-              {isLiked ? <HeartFilled className={styles.heartFilled} /> : <HeartOutlined />}
+              {isLiked ? <HeartFilled className={styles.favoriteFilled} /> : <HeartOutlined />}
             </Button>
             {favoritesCounter}
           </Row>
@@ -133,12 +133,14 @@ export default function Article({ article, preview }) {
         </section>
         <section className={styles.authorSection}>
           <Row className={styles.author} justify="space-between">
-            <h2 className={styles.authorName}>{username}</h2>
+            <Col>
+              <h2 className={styles.authorName}>{username}</h2>
+              <Text className={styles.date} type="secondary">
+                {format(new Date(createdAt), 'MMMM dd, y')}
+              </Text>
+            </Col>
             <Avatar className={styles.avatar} size="large" src={image} />
           </Row>
-          <Text className={styles.date} type="secondary">
-            {format(new Date(createdAt), 'MMMM dd, y')}
-          </Text>
           {currentUser?.username === username && !preview ? editButtons : null}
         </section>
       </div>
