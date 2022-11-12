@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import { useDeleteArticleMutation, useLikePostMutation, useUnlikePostMutation } from '../../api/apiSlice'
+import { useDeleteArticleMutation, useFavoritePostMutation, useUnfavoritePostMutation } from '../../api/apiSlice'
 import { selectCurrentUser } from '../../store/userSlice'
 
 import styles from './article.module.scss'
@@ -15,44 +15,50 @@ export default function Article({ article, preview }) {
   const { Text, Paragraph } = Typography
   const { slug, createdAt, tagList, favorited, favoritesCount } = article
   const { username, image } = article.author
-  const [isLiked, setIsLiked] = useState(favorited)
+  const [isFavorited, setIsFavorited] = useState(favorited)
   const [favoritesCounter, setFavoritesCounter] = useState(favoritesCount)
   const [
     deleteArticle,
     { isLoading: isDeleteLoading, isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError },
   ] = useDeleteArticleMutation()
   const [
-    like,
-    { data: likeData, error: isLikeError, isLoading: isLikeLoading, isSuccess: isLikeSuccess, reset: resetLike },
-  ] = useLikePostMutation()
-  const [
-    unlike,
+    favorite,
     {
-      data: unlikeData,
-      error: isUnlikeError,
-      isLoading: isUnlikeLoading,
-      isSuccess: isUnlikeSuccess,
-      reset: resetUnlike,
+      data: favoriteData,
+      error: isfavoriteError,
+      isLoading: isfavoriteLoading,
+      isSuccess: isfavoriteSuccess,
+      reset: resetFavorite,
     },
-  ] = useUnlikePostMutation()
+  ] = useFavoritePostMutation()
+  const [
+    unfavorite,
+    {
+      data: unfavoriteData,
+      error: isUnfavoriteError,
+      isLoading: isUnfavoriteLoading,
+      isSuccess: isUnfavoriteSuccess,
+      reset: resetUnfavorite,
+    },
+  ] = useUnfavoritePostMutation()
   useEffect(() => {
-    if (isLikeSuccess) {
-      setFavoritesCounter(likeData.article.favoritesCount)
-      resetLike()
+    if (isfavoriteSuccess) {
+      setFavoritesCounter(favoriteData.article.favoritesCount)
+      resetFavorite()
     }
-    if (isUnlikeSuccess) {
-      setFavoritesCounter(unlikeData.article.favoritesCount)
-      resetUnlike()
+    if (isUnfavoriteSuccess) {
+      setFavoritesCounter(unfavoriteData.article.favoritesCount)
+      resetUnfavorite()
     }
-  }, [isLikeSuccess, isUnlikeSuccess, likeData, unlikeData, resetLike, resetUnlike])
+  }, [isfavoriteSuccess, isUnfavoriteSuccess, favoriteData, unfavoriteData, resetFavorite, resetUnfavorite])
   useEffect(() => {
-    if (isLikeError) {
+    if (isfavoriteError) {
       message.error('Cannot favorite the post')
     }
-    if (isUnlikeError) {
+    if (isUnfavoriteError) {
       message.error('Cannot unfavorite the post')
     }
-  }, [isUnlikeError, isLikeError])
+  }, [isUnfavoriteError, isfavoriteError])
   const currentUser = useSelector(selectCurrentUser)
   const navigate = useNavigate()
   const articleText = (
@@ -105,26 +111,26 @@ export default function Article({ article, preview }) {
               {preview ? <Link to={`../articles/${slug}`}>{article.title}</Link> : article.title}
             </Button>
             <Button
-              className={styles.likeButton}
+              className={styles.favoriteButton}
               type="text"
               size="small"
               shape="circle"
               disabled={!currentUser}
               onClick={() => {
-                if (!isUnlikeLoading && !isLikeLoading) {
-                  setIsLiked(!isLiked)
-                  if (!isLiked) {
+                if (!isUnfavoriteLoading && !isfavoriteLoading) {
+                  setIsFavorited(!isFavorited)
+                  if (!isFavorited) {
                     setFavoritesCounter(favoritesCounter + 1)
-                    like(slug)
+                    favorite(slug)
                   }
-                  if (isLiked) {
+                  if (isFavorited) {
                     setFavoritesCounter(favoritesCounter - 1)
-                    unlike(slug)
+                    unfavorite(slug)
                   }
                 }
               }}
             >
-              {isLiked ? <HeartFilled className={styles.favoriteFilled} /> : <HeartOutlined />}
+              {isFavorited ? <HeartFilled className={styles.favoriteFilled} /> : <HeartOutlined />}
             </Button>
             {favoritesCounter}
           </Row>

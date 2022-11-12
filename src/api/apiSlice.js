@@ -96,7 +96,7 @@ const apiSlice = createApi({
         },
       }),
     }),
-    likePost: builder.mutation({
+    favoritePost: builder.mutation({
       query: (slug) => ({
         url: `/articles/${slug}/favorite`,
         method: 'POST',
@@ -105,7 +105,7 @@ const apiSlice = createApi({
         },
       }),
     }),
-    unlikePost: builder.mutation({
+    unfavoritePost: builder.mutation({
       query: (slug) => ({
         url: `/articles/${slug}/favorite`,
         method: 'DELETE',
@@ -127,7 +127,7 @@ export const {
   useCreateArticleMutation,
   useEditArticleMutation,
   useDeleteArticleMutation,
-  useLikePostMutation,
-  useUnlikePostMutation,
+  useFavoritePostMutation,
+  useUnfavoritePostMutation,
 } = apiSlice
 export default apiSlice
