@@ -44,10 +44,12 @@ export default function Article({ article, preview }) {
   useEffect(() => {
     if (isfavoriteSuccess) {
       setFavoritesCounter(favoriteData.article.favoritesCount)
+      message.success('Successfully favorited!')
       resetFavorite()
     }
     if (isUnfavoriteSuccess) {
       setFavoritesCounter(unfavoriteData.article.favoritesCount)
+      message.success('Successfully unfavorited!')
       resetUnfavorite()
     }
   }, [isfavoriteSuccess, isUnfavoriteSuccess, favoriteData, unfavoriteData, resetFavorite, resetUnfavorite])
