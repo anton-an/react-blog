@@ -1,16 +1,18 @@
-import { Alert, Row, Spin } from 'antd'
+import { Row, Spin } from 'antd'
 import { useParams, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 
 import Article from '../Article/Article'
 import { useGetArticleQuery } from '../../api/apiSlice'
+import Error from '../Error'
+import getErrorMessage from '../../helpers/errorMessage'
 
 import styles from './article-page.module.scss'
 
 export default function ArticlePage() {
   const { slug } = useParams()
   const { pathname } = useLocation()
-  const { data, isSuccess, isLoading, isError } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true })
+  const { data, isSuccess, isLoading, isError, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true })
   let content
 
   useEffect(() => {
@@ -24,23 +26,13 @@ export default function ArticlePage() {
   if (isLoading) {
     content = (
       <Row className={styles.spinner} justify="center">
-        <Spin text="Loading..." size="large" />
+        <Spin size="large" />
       </Row>
     )
   }
 
   if (isError) {
-    content = (
-      <Row justify="center">
-        <Alert
-          className={styles.error}
-          message="Error"
-          description="Something went wrong. Try again later."
-          type="error"
-          showIcon
-        />
-      </Row>
-    )
+    content = <Error text={getErrorMessage(error)} />
   }
 
   if (isSuccess) {

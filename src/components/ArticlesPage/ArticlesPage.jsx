@@ -1,9 +1,11 @@
-import { Row, Pagination, Spin, Alert } from 'antd'
+import { Row, Pagination, Spin } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useGetArticlesListQuery } from '../../api/apiSlice'
+import getErrorMessage from '../../helpers/errorMessage'
 import Article from '../Article'
+import Error from '../Error'
 
 import styles from './articles-page.module.scss'
 
@@ -13,7 +15,7 @@ export default function ArticlesPage() {
   const navigate = useNavigate()
   const params = useParams()
   const { pathname } = useLocation()
-  const { data, isSuccess, isLoading, isError } = useGetArticlesListQuery(offset, {
+  const { data, isSuccess, isLoading, isError, error } = useGetArticlesListQuery(offset, {
     refetchOnMountOrArgChange: true,
   })
 
@@ -45,17 +47,7 @@ export default function ArticlesPage() {
   }
 
   if (isError) {
-    content = (
-      <Row justify="center">
-        <Alert
-          className={styles.error}
-          message="Error"
-          description="Something went wrong. Try again later."
-          type="error"
-          showIcon
-        />
-      </Row>
-    )
+    content = <Error text={getErrorMessage(error)} />
   }
 
   return (
