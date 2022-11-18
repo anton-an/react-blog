@@ -12,7 +12,7 @@ import styles from './article-page.module.scss'
 export default function ArticlePage() {
   const { slug } = useParams()
   const { pathname } = useLocation()
-  const { data, isSuccess, isLoading, isError, error } = useGetArticleQuery(slug, { refetchOnMountOrArgChange: true })
+  const { data, isSuccess, isLoading, isError, error } = useGetArticleQuery(slug)
   let content
 
   useEffect(() => {

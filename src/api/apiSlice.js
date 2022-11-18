@@ -8,6 +8,7 @@ const getToken = () => {
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api' }),
+  tagTypes: ['Article'],
   endpoints: (builder) => ({
     getArticlesList: builder.query({
       query: (offset) => ({
@@ -16,6 +17,8 @@ const apiSlice = createApi({
           Authorization: `Token ${getToken()}`,
         },
       }),
+      providesTags: (data) =>
+        data ? [...data.articles.map(({ slug }) => ({ type: 'Article', id: slug }))] : ['Article'],
     }),
     getArticle: builder.query({
       query: (slug) => ({
@@ -24,6 +27,7 @@ const apiSlice = createApi({
           Authorization: `Token ${getToken()}`,
         },
       }),
+      providesTags: ['Article'],
     }),
     register: builder.mutation({
       query: (userData) => ({
@@ -76,6 +80,7 @@ const apiSlice = createApi({
         },
         body: article,
       }),
+      invalidatesTags: [{ type: 'Article' }],
     }),
     editArticle: builder.mutation({
       query: ({ id, data }) => ({
@@ -86,6 +91,7 @@ const apiSlice = createApi({
         },
         body: data,
       }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Article', id: arg.id }, 'Article'],
     }),
     deleteArticle: builder.mutation({
       query: (slug) => ({
@@ -95,6 +101,7 @@ const apiSlice = createApi({
           Authorization: `Token ${getToken()}`,
         },
       }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Article', id: arg.id }],
     }),
     favoritePost: builder.mutation({
       query: (slug) => ({
@@ -104,6 +111,7 @@ const apiSlice = createApi({
           Authorization: `Token ${getToken()}`,
         },
       }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Article', id: arg.id }],
     }),
     unfavoritePost: builder.mutation({
       query: (slug) => ({
@@ -113,6 +121,7 @@ const apiSlice = createApi({
           Authorization: `Token ${getToken()}`,
         },
       }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Article', id: arg.id }],
     }),
   }),
 })

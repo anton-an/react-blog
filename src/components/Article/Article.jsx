@@ -1,66 +1,25 @@
-import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { Card, Button, Row, Typography, Tag, Avatar, Col, Popconfirm, message } from 'antd'
 import format from 'date-fns/format'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import { useDeleteArticleMutation, useFavoritePostMutation, useUnfavoritePostMutation } from '../../api/apiSlice'
+import { useDeleteArticleMutation } from '../../api/apiSlice'
 import { selectCurrentUser } from '../../store/userSlice'
+import Favorite from '../Favorite/Favorite'
 
 import styles from './article.module.scss'
 
 export default function Article({ article, preview }) {
   const { Text, Paragraph } = Typography
-  const { slug, createdAt, tagList, favorited, favoritesCount } = article
+  const { slug, createdAt, tagList } = article
   const { username, image } = article.author
-  const [isFavorited, setIsFavorited] = useState(favorited)
-  const [favoritesCounter, setFavoritesCounter] = useState(favoritesCount)
+  const { favoritesCount, favorited } = article
   const [
     deleteArticle,
     { isLoading: isDeleteLoading, isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError },
   ] = useDeleteArticleMutation()
-  const [
-    favorite,
-    {
-      data: favoriteData,
-      error: isfavoriteError,
-      isLoading: isfavoriteLoading,
-      isSuccess: isfavoriteSuccess,
-      reset: resetFavorite,
-    },
-  ] = useFavoritePostMutation()
-  const [
-    unfavorite,
-    {
-      data: unfavoriteData,
-      error: isUnfavoriteError,
-      isLoading: isUnfavoriteLoading,
-      isSuccess: isUnfavoriteSuccess,
-      reset: resetUnfavorite,
-    },
-  ] = useUnfavoritePostMutation()
-  useEffect(() => {
-    if (isfavoriteSuccess) {
-      setFavoritesCounter(favoriteData.article.favoritesCount)
-      message.success('Successfully favorited!')
-      resetFavorite()
-    }
-    if (isUnfavoriteSuccess) {
-      setFavoritesCounter(unfavoriteData.article.favoritesCount)
-      message.success('Successfully unfavorited!')
-      resetUnfavorite()
-    }
-  }, [isfavoriteSuccess, isUnfavoriteSuccess, favoriteData, unfavoriteData, resetFavorite, resetUnfavorite])
-  useEffect(() => {
-    if (isfavoriteError) {
-      message.error('Cannot favorite the post')
-    }
-    if (isUnfavoriteError) {
-      message.error('Cannot unfavorite the post')
-    }
-  }, [isUnfavoriteError, isfavoriteError])
   const currentUser = useSelector(selectCurrentUser)
   const navigate = useNavigate()
   const articleText = (
@@ -112,29 +71,7 @@ export default function Article({ article, preview }) {
             <Button className={styles.link} type="link">
               {preview ? <Link to={`../articles/${slug}`}>{article.title}</Link> : article.title}
             </Button>
-            <Button
-              className={styles.favoriteButton}
-              type="text"
-              size="small"
-              shape="circle"
-              disabled={!currentUser}
-              onClick={() => {
-                if (!isUnfavoriteLoading && !isfavoriteLoading) {
-                  setIsFavorited(!isFavorited)
-                  if (!isFavorited) {
-                    setFavoritesCounter(favoritesCounter + 1)
-                    favorite(slug)
-                  }
-                  if (isFavorited) {
-                    setFavoritesCounter(favoritesCounter - 1)
-                    unfavorite(slug)
-                  }
-                }
-              }}
-            >
-              {isFavorited ? <HeartFilled className={styles.favoriteFilled} /> : <HeartOutlined />}
-            </Button>
-            {favoritesCounter}
+            <Favorite slug={slug} favoritesCount={favoritesCount} favorited={favorited} />
           </Row>
           <Row className={styles.tags}>{tags}</Row>
           <Text type={preview ? 'primary' : 'secondary'}>{article.description}</Text>
