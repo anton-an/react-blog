@@ -15,6 +15,7 @@ import EditProfile from '../EditProfile/EditProfile'
 import CreateArticle from '../CreateArticle'
 import EditArticle from '../EditArticle'
 import PageNotFound from '../PageNotFound'
+import PrivateRoute from '../PrivateRoute/PrivateRoute'
 
 import styles from './app.module.scss'
 
@@ -49,7 +50,7 @@ export default function App() {
           <Route path="/articles" element={<Navigate to={`/articles/page/${1}`} replace />} />
           <Route path="/articles/page/:page" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
-          <Route path="/articles/:slug/edit" element={user ? <EditArticle /> : goLogin} />
+          <Route path="/articles/:slug/edit" element={<PrivateRoute protectedComponent={<EditArticle />} />} />
           <Route path="/profile" element={user ? <EditProfile /> : goLogin} />
           <Route path="/sign-up" element={<Register />} />
           <Route path="/sign-in" element={<Login />} />
