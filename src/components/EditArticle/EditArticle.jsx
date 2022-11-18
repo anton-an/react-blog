@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { message, Spin, Row } from 'antd'
 import { useSelector } from 'react-redux'
@@ -13,6 +13,7 @@ import styles from './edit-article.module.scss'
 
 export default function EditArticle() {
   const { slug } = useParams()
+  const { state } = useLocation()
   const navigate = useNavigate()
   const { username: currentUsername } = useSelector(selectCurrentUser)
   const [editArticle, { isLoading, isSuccess, isError, error }] = useEditArticleMutation()
@@ -22,7 +23,13 @@ export default function EditArticle() {
     isError: isArticleError,
     isLoading: isArticleLoading,
     error: articleError,
-  } = useGetArticleQuery(slug)
+  } = useGetArticleQuery(slug, { skip: !state })
+
+  useEffect(() => {
+    if (!state) {
+      navigate(-1, { replace: true })
+    }
+  }, [currentUsername, state, navigate])
 
   useEffect(() => {
     if (isSuccess) {
@@ -34,11 +41,7 @@ export default function EditArticle() {
   let articleData
 
   if (data) {
-    const { title, description, body, tagList, author } = data.article
-    const { username: authorUsername } = author
-    if (currentUsername !== authorUsername) {
-      navigate(-1, { replace: true })
-    }
+    const { title, description, body, tagList } = data.article
     articleData = {
       article: {
         title,
