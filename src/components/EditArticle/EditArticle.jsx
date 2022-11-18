@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { message, Spin, Row } from 'antd'
 
@@ -11,7 +11,6 @@ import styles from './edit-article.module.scss'
 
 export default function EditArticle() {
   const { slug } = useParams()
-  const { state } = useLocation()
   const navigate = useNavigate()
   const [editArticle, { isLoading, isSuccess, isError, error }] = useEditArticleMutation()
   const {
@@ -20,7 +19,7 @@ export default function EditArticle() {
     isError: isArticleError,
     isLoading: isArticleLoading,
     error: articleError,
-  } = useGetArticleQuery(slug, { skip: !state })
+  } = useGetArticleQuery(slug)
 
   useEffect(() => {
     if (isSuccess) {

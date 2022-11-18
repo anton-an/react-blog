@@ -50,7 +50,10 @@ export default function App() {
           <Route path="/articles" element={<Navigate to={`/articles/page/${1}`} replace />} />
           <Route path="/articles/page/:page" element={<ArticlesPage />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
-          <Route path="/articles/:slug/edit" element={<PrivateRoute protectedComponent={<EditArticle />} />} />
+          <Route
+            path="/articles/:slug/edit"
+            element={user ? <PrivateRoute protectedComponent={<EditArticle />} /> : goLogin}
+          />
           <Route path="/profile" element={user ? <EditProfile /> : goLogin} />
           <Route path="/sign-up" element={<Register />} />
           <Route path="/sign-in" element={<Login />} />

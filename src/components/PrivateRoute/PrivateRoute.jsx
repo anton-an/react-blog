@@ -9,9 +9,6 @@ export default function PrivateRoute({ protectedComponent }) {
   const { data } = useGetArticleQuery(slug)
   const navigate = useNavigate()
   const user = useSelector(selectCurrentUser)
-  if (!user) {
-    navigate('/sign-in')
-  }
   if (data) {
     const { author } = data.article
     if (author.username !== user.username) {
