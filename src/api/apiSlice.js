@@ -70,6 +70,7 @@ const apiSlice = createApi({
         },
         body,
       }),
+      invalidatesTags: [{ type: 'Article' }],
     }),
     createArticle: builder.mutation({
       query: (article) => ({
